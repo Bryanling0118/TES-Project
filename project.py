@@ -97,83 +97,71 @@ class AgriculturalExpertSystem:
 
     def apply_rules(self):
         self.recommendations = []
-        # Rule 1: Check if the planted crop is wheat and the soil and rainfall conditions are suitable
+
+        # Rules for Wheat
         if self.attributes["planted_crop"] == "wheat":
             if self.attributes["soil_type"] == "loamy" and self.attributes["rainfall"] == "medium":
                 self.recommendations.append("Rule 1: Wheat thrives in loamy soil with medium rainfall.")
-            # Rule 2: Check if the temperature is too low for wheat's optimal growth
             if self.attributes["temperature"] < 10:
                 self.recommendations.append("Rule 2: Wheat requires temperatures above 10°C for optimal growth.")
-            # Rule 3: Check if the rainfall is low and suggest irrigation for wheat
             if self.attributes["rainfall"] == "low":
                 self.recommendations.append("Rule 3: Wheat needs supplemental irrigation in low rainfall areas.")
+            if self.attributes["rainfall"] == "high":
+                self.recommendations.append("Rule 4: High rainfall during wheat's early growth stage may lead to waterlogging; consider ridge planting.")
 
-        # Rule 4: Check if the planted crop is corn and the soil and rainfall conditions are suitable
+        # Rules for Corn
         if self.attributes["planted_crop"] == "corn":
             if self.attributes["soil_type"] in ["loamy", "clay"] and self.attributes["rainfall"] == "high":
-                self.recommendations.append("Rule 4: Corn grows best in loamy or clay soils with high rainfall.")
-            # Rule 5: Check if the temperature is high and suggest regular watering for corn
+                self.recommendations.append("Rule 5: Corn grows best in loamy or clay soils with high rainfall.")
             if self.attributes["temperature"] > 30:
-                self.recommendations.append("Rule 5: Corn requires regular watering in temperatures above 30°C.")
-            # Rule 6: Check if the rainfall is medium and suggest proper irrigation for corn
+                self.recommendations.append("Rule 6: Corn requires regular watering in temperatures above 30°C.")
             if self.attributes["rainfall"] == "medium":
-                self.recommendations.append("Rule 6: Corn can also grow well in medium rainfall areas with proper irrigation.")
+                self.recommendations.append("Rule 7: Corn can also grow well in medium rainfall areas with proper irrigation.")
+            if 20 <= self.attributes["temperature"] <= 30:
+                self.recommendations.append("Rule 8: Corn grows optimally between 20°C and 30°C; ensure consistent watering and pest monitoring during flowering.")
 
-        # Rule 7: Check if the planted crop is rice and the soil and rainfall conditions are suitable
+        # Rules for Rice
         if self.attributes["planted_crop"] == "rice":
             if self.attributes["soil_type"] == "clay" and self.attributes["rainfall"] == "high":
-                self.recommendations.append("Rule 7: Rice requires clay soil and high rainfall.")
-            # Rule 8: Check if the temperature is suitable for rice's growth
+                self.recommendations.append("Rule 9: Rice requires clay soil and high rainfall.")
             if self.attributes["temperature"] > 25:
-                self.recommendations.append("Rule 8: Rice thrives in temperatures above 25°C.")
-            # Rule 9: Check if the rainfall is medium and suggest controlled irrigation for rice
+                self.recommendations.append("Rule 10: Rice thrives in temperatures above 25°C.")
             if self.attributes["rainfall"] == "medium":
-                self.recommendations.append("Rule 9: Rice can be grown in medium rainfall areas with controlled irrigation.")
+                self.recommendations.append("Rule 11: Rice can be grown in medium rainfall areas with controlled irrigation.")
+            if self.attributes["rainfall"] == "low":
+                self.recommendations.append("Rule 12: Rice can be cultivated in low rainfall areas using controlled irrigation techniques such as Alternate Wetting and Drying (AWD).")
 
-        # Rule 10: Check if the temperature is too high and suggest measures to prevent heat stress
+        # General Temperature-Based Rules
         if self.attributes["temperature"] > 35:
-            self.recommendations.append("Rule 10: Use shade nets and increase irrigation to prevent heat stress on crops.")
-
-        # Rule 11: Check if the soil is sandy and rainfall is low and suggest suitable crops
-        if self.attributes["soil_type"] == "sandy" and self.attributes["rainfall"] == "low":
-            self.recommendations.append("Rule 11: Sandy soil with low rainfall is suitable for drought - resistant crops.")
-            self.recommendations.append("Rule 12: Consider planting crops like millet or sorghum in sandy soil with low rainfall.")
-
-        # Rule 13: Check if the soil is clay and rainfall is low and suggest drainage and suitable crops
-        if self.attributes["soil_type"] == "clay" and self.attributes["rainfall"] == "low":
-            self.recommendations.append("Rule 13: Clay soil with low rainfall requires efficient drainage systems.")
-            self.recommendations.append("Rule 14: Consider planting crops like chickpeas or lentils in clay soil with low rainfall.")
-
-        # Rule 15: Check if the soil is loamy and rainfall is high and suggest suitable crops
-        if self.attributes["soil_type"] == "loamy" and self.attributes["rainfall"] == "high":
-            self.recommendations.append("Rule 15: Loamy soil with high rainfall is ideal for most crops.")
-            self.recommendations.append("Rule 16: Consider planting crops like tomatoes or peppers in loamy soil with high rainfall.")
-
-        # Rule 17: Check if the temperature is too low and suggest measures to protect from frost
+            self.recommendations.append("Rule 13: Use shade nets and increase irrigation to prevent heat stress on crops.")
         if self.attributes["temperature"] < 5:
-            self.recommendations.append("Rule 17: Protect crops from frost in temperatures below 5°C.")
-            self.recommendations.append("Rule 18: Consider using frost cloths or heaters to protect crops from frost.")
+            self.recommendations.append("Rule 14: Protect crops from frost in temperatures below 5°C.")
+            self.recommendations.append("Rule 15: Consider using frost cloths or heaters to protect crops from frost.")
+        if 15 <= self.attributes["temperature"] <= 20:
+            self.recommendations.append("Rule 16: Temperatures between 15°C and 20°C are ideal for wheat and corn growth stages.")
 
-        # Rule 19: Check if the rainfall and temperature are suitable for vegetable crops
+        # Soil and Rainfall Rules
+        if self.attributes["soil_type"] == "sandy" and self.attributes["rainfall"] == "low":
+            self.recommendations.append("Rule 17: Sandy soil with low rainfall is unsuitable for rice and wheat; consider irrigation for better crop establishment.")
+        if self.attributes["soil_type"] == "clay" and self.attributes["rainfall"] == "low":
+            self.recommendations.append("Rule 18: Clay soil with low rainfall requires efficient drainage systems for crops like wheat.")
+        if self.attributes["soil_type"] == "loamy" and self.attributes["rainfall"] == "high":
+            self.recommendations.append("Rule 19: Loamy soil with high rainfall is ideal for rice and corn.")
+
+        # Rainfall and Temperature Rules
         if self.attributes["rainfall"] == "medium" and self.attributes["temperature"] > 20:
-            self.recommendations.append("Rule 19: Medium rainfall and temperatures above 20°C are ideal for vegetable crops.")
-            self.recommendations.append("Rule 20: Consider planting crops like carrots or lettuce in medium rainfall and warm temperatures.")
-
-        # Rule 21: Check if the rainfall is high and temperature is low and suggest suitable crops
+            self.recommendations.append("Rule 20: Medium rainfall and temperatures above 20°C are ideal for corn and rice.")
         if self.attributes["rainfall"] == "high" and self.attributes["temperature"] < 15:
-            self.recommendations.append("Rule 21: High rainfall and temperatures below 15°C are suitable for leafy greens.")
-            self.recommendations.append("Rule 22: Consider planting crops like spinach or kale in high rainfall and cool temperatures.")
+            self.recommendations.append("Rule 21: High rainfall and temperatures below 15°C can impact crop yield; consider soil amendments.")
 
-        # Rule 23: Check if no crop is planted and suggest crops based on soil and rainfall
+        # No Crop Planted Rules
         if self.attributes["planted_crop"] == "none":
             if self.attributes["soil_type"] == "loamy" and self.attributes["rainfall"] == "medium":
-                self.recommendations.append("Rule 23: Consider planting wheat or corn in loamy soil with medium rainfall.")
-            # Rule 24: Check if no crop is planted and suggest rice based on soil and rainfall
+                self.recommendations.append("Rule 22: Consider planting wheat or corn in loamy soil with medium rainfall.")
             if self.attributes["soil_type"] == "clay" and self.attributes["rainfall"] == "high":
-                self.recommendations.append("Rule 24: Consider planting rice in clay soil with high rainfall.")
-            # Rule 25: Check if no crop is planted and suggest drought - resistant crops based on soil and rainfall
+                self.recommendations.append("Rule 23: Consider planting rice in clay soil with high rainfall.")
             if self.attributes["soil_type"] == "sandy" and self.attributes["rainfall"] == "low":
-                self.recommendations.append("Rule 25: Consider planting drought - resistant crops in sandy soil with low rainfall.")
+                self.recommendations.append("Rule 24: Consider using supplemental irrigation for corn or wheat in sandy soil with low rainfall.")
 
     def display_recommendations(self):
         self.recommendations_text.insert(tk.END, f"Recommendations {self.recommendation_count}\n")
